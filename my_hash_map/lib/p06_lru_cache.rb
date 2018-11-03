@@ -1,5 +1,6 @@
 require_relative 'p05_hash_map'
 require_relative 'p04_linked_list'
+require 'byebug'
 
 class LRUCache
   def initialize(max, prc)
@@ -14,6 +15,19 @@ class LRUCache
   end
 
   def get(key)
+    if @map.include?(key)
+      @map.get(key)
+    else
+      val = @prc.call(key)
+      # debugger
+      @store.append(key, val)
+      @map.set(key, @store.last)
+      if @map.count > @max
+        oldest_key = @store.first.key
+        @store.remove(oldest_key)
+        @map.delete(key)
+      end
+    end
   end
 
   def to_s
