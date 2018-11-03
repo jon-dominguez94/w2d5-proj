@@ -25,8 +25,13 @@ class LinkedList
   def initialize
     @head = Node.new
     @tail = Node.new
-    @head.next = @tail 
+    @head.next = @tail
     @tail.prev = @head
+  end
+
+  def inspect
+    "Head: #{@head.to_s}, Tail: #{@tail.to_s}"
+    # self.to_s
   end
 
   def [](i)
@@ -39,60 +44,60 @@ class LinkedList
   end
 
   def last
-    @tail.prev 
+    @tail.prev
   end
 
   def empty?
-    @head.next == @tail 
+    @head.next == @tail
   end
 
   def get(key)
     each do |node|
-      return node.val if node.key == key 
-    end 
-    nil 
+      return node.val if node.key == key
+    end
+    nil
   end
 
   def include?(key)
     each do |node|
-      return true if node.key == key 
-    end 
-    false 
+      return true if node.key == key
+    end
+    false
   end
 
   def append(key, val)
     new_node = Node.new(key, val)
     new_node.prev = @tail.prev
-    @tail.prev.next = new_node 
-    @tail.prev = new_node 
+    @tail.prev.next = new_node
+    @tail.prev = new_node
     new_node.next = @tail
   end
 
   def update(key, val)
     each do |node|
-      node.val = val if node.key == key 
-    end 
+      node.val = val if node.key == key
+    end
   end
 
   def remove(key)
     if include?(key)
       each do |node|
-        if node.key == key 
+        if node.key == key
           node.prev.next = node.next
           node.next.prev = node.prev
-        end 
-      end 
-    end 
+        end
+      end
+    end
   end
 
   def each
     results = []
-      current = first 
-      until current.key == nil 
+      current = first
+      until current.key == nil
         yield(current)
         current = current.next
-      end  
-    results 
+      end
+    results
   end
 
   # uncomment when you have `each` working and `Enumerable` included

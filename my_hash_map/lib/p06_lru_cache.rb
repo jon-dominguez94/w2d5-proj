@@ -14,19 +14,24 @@ class LRUCache
     @map.count
   end
 
+  def inspect
+    to_s
+  end
+
   def get(key)
+    # debugger
     if @map.include?(key)
-      @map.get(key)
+      @map.get(key).val
     else
       val = @prc.call(key)
-      # debugger
       @store.append(key, val)
       @map.set(key, @store.last)
       if @map.count > @max
         oldest_key = @store.first.key
         @store.remove(oldest_key)
-        @map.delete(key)
+        @map.delete(oldest_key)
       end
+      return val
     end
   end
 
