@@ -24,8 +24,7 @@ class LRUCache
       @map.get(key).val
     else
       val = @prc.call(key)
-      @store.append(key, val)
-      @map.set(key, @store.last)
+      calc!(key, val)
       if @map.count > @max
         oldest_key = @store.first.key
         @store.remove(oldest_key)
@@ -41,8 +40,10 @@ class LRUCache
 
   private
 
-  def calc!(key)
+  def calc!(key, val)
     # suggested helper method; insert an (un-cached) key
+    @store.append(key, val)
+    @map.set(key, @store.last)
   end
 
   def update_node!(node)
