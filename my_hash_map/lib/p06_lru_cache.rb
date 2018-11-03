@@ -26,9 +26,7 @@ class LRUCache
       val = @prc.call(key)
       calc!(key, val)
       if @map.count > @max
-        oldest_key = @store.first.key
-        @store.remove(oldest_key)
-        @map.delete(oldest_key)
+        eject!
       end
       return val
     end
@@ -51,5 +49,8 @@ class LRUCache
   end
 
   def eject!
+    oldest_key = @store.first.key
+    @store.remove(oldest_key)
+    @map.delete(oldest_key)
   end
 end
